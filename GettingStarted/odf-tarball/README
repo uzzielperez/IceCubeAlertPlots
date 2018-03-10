@@ -1,0 +1,9 @@
+In order to use this library in python you simply have to add
+the odf/python/ to your PYTHONPATH
+
+For example, in bash:
+$ export PYTHONPATH=${PYTHONPATH}:$HOME/odf/python
+
+Alternatively, in bash, you can source the provided env.sh.
+
+
