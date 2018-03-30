@@ -1,7 +1,37 @@
 import pyfits
 import numpy as np
 import pylab as pl
+import matplotlib
+import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
+matplotlib.use('TkAgg') # TkAg backend  to draw plot on Tk canv with tkinter (Faster than MacOS backend) 
+import argparse
+
+# Command Line Options or GCN args 
+parser = argparse.ArgumentParser(description='GCN variables.')
+parser.add_argument('-ra', '--RAsc', type=float, default=77.43,
+                    help='Right Ascension')
+parser.add_argument('-rh', '--dRAhi', type=float, default=1.3,
+                    help='Delta Right Ascension high')
+parser.add_argument('-rl', '--dRAlo', type=float, default=0.8,
+                    help='Delta Right Ascension low')
+parser.add_argument('-d', '--Dec', type=float, default=5.72,
+                    help='Declination')
+parser.add_argument('-dh', '--dDechi', type=float, default=0.7,
+                    help='Delta Declination high')
+parser.add_argument('-dl', '--dDeclo', type=float, default=0.4,
+                    help='Delta Declination low')
+parser.add_argument('-b', '--Box', type=int, default=3,
+                    help='Box')
+args = parser.parse_args()
+
+RA0 = args.RAsc #77.43
+dRAhi = args.dRAhi #1.3
+dRAlo = args.dRAlo #0.8
+Dec0 = args.Dec #5.72
+dDechi = args.dDechi #0.7
+dDeclo = args.dDeclo #0.4
+Box = args.Box #3
 
 pl.rcParams['figure.figsize'] = (14.0, 12.0)
 pl.rcParams['font.size'] = 15
@@ -71,36 +101,36 @@ for s in np.array(srcs_3fgl).T:
         ax.annotate(s[2], (float(s[0])-0.3, float(s[1])), color='blue', horizontalalignment='left', verticalalignment='center', fontsize=12)
 
 # Read BZCat
-bzcat = np.genfromtxt("/Users/up/Desktop/IceCube/Fermi-Neutrino alerts/5bzu.dat", delimiter=',', dtype=None, names=True)
-
-# Parse BZCat strings
-def procRA(s):
-    #print(s)
-    l = str(s).split(' ')
-    ra = 15 * (float(l[1]) + float(l[2])/60. + float(l[3])/3600.)
-    return ra 
-
-def procDec(s):
-    #print(s)
-    l = str(s).split(' ')
-    dec = np.abs(float(l[1])) + float(l[2])/60. + float(l[3])/3600.
-
-    if '-' in l[1]:
-        return -dec
-    else:
-        return dec
-ra_bzcat = [procRA(s) for s in bzcat['RA']]
-dec_bzcat = [procDec(s) for s in bzcat['Dec']]
-
-ax.scatter(ra_bzcat, dec_bzcat, color='#666666', label='BZCat')
-
-for s in bzcat:
-    ra = procRA(s['RA'])
-    dec = procDec(s['Dec'])
-    name = str(s['Source_Name']).split('\'')
-    if openingAngle(ra, dec, RA0, Dec0) < Box: 
-        ax.annotate(name[1], (ra-0.1, dec+0.3), color='#666666', horizontalalignment='left', verticalalignment='center', fontsize=12, clip_on=True)
-
+#bzcat = np.genfromtxt("/Users/up/Desktop/IceCube/Fermi-Neutrino alerts/5bzu.dat", delimiter=',', dtype=None, names=True)
+#
+## Parse BZCat strings
+#def procRA(s):
+#    #print(s)
+#    l = str(s).split(' ')
+#    ra = 15 * (float(l[1]) + float(l[2])/60. + float(l[3])/3600.)
+#    return ra 
+#
+#def procDec(s):
+#    #print(s)
+#    l = str(s).split(' ')
+#    dec = np.abs(float(l[1])) + float(l[2])/60. + float(l[3])/3600.
+#
+#    if '-' in l[1]:
+#        return -dec
+#    else:
+#        return dec
+#ra_bzcat = [procRA(s) for s in bzcat['RA']]
+#dec_bzcat = [procDec(s) for s in bzcat['Dec']]
+#
+#ax.scatter(ra_bzcat, dec_bzcat, color='#666666', label='BZCat')
+#
+#for s in bzcat:
+#    ra = procRA(s['RA'])
+#    dec = procDec(s['Dec'])
+#    name = str(s['Source_Name']).split('\'')
+#    if openingAngle(ra, dec, RA0, Dec0) < Box: 
+#        ax.annotate(name[1], (ra-0.1, dec+0.3), color='#666666', horizontalalignment='left', verticalalignment='center', fontsize=12, clip_on=True)
+#
 # Plot neutrino position
 ax.scatter(RA0, Dec0, color='crimson', marker='x', label='IC170922 - GCN', s=100)
 xe = RA0 + (dRAhi - dRAlo)/2.
@@ -120,3 +150,6 @@ ax.set_ylim(Dec0-Box, Dec0+Box)
 ax.set_xlabel(r'$\alpha_{2000}$ [$^{\circ}$]')
 ax.set_ylabel(r'$\delta_{2000}$ [$^{\circ}$]')
 ax.grid(linestyle='--', linewidth=0.5)
+
+plt.show()
+plt.savefig('testplot.png')
