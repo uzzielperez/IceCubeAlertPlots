@@ -23,6 +23,7 @@ parser.add_argument('-dl', '--dDeclo', type=float, default=0.4,
                     help='Delta Declination low')
 parser.add_argument('-b', '--Box', type=int, default=3,
                     help='Box')
+parser.add_argument('-g', '--gcnlabel', type=str, default='IC170922 - GCN', help='GCN ID')
 args = parser.parse_args()
 
 RA0 = args.RAsc #77.43
@@ -32,6 +33,11 @@ Dec0 = args.Dec #5.72
 dDechi = args.dDechi #0.7
 dDeclo = args.dDeclo #0.4
 Box = args.Box #3
+
+if args.gcnlabel==None:
+    gcnlabel = "IC170922 - GCN"
+else:
+    gcnlabel = args.gcnlabel
 
 pl.rcParams['figure.figsize'] = (14.0, 12.0)
 pl.rcParams['font.size'] = 15
@@ -67,9 +73,14 @@ def getCatPositions(filename = "gll_psch_v13.fit"):
     except KeyError:
         return (data['RAJ2000'], data['DEJ2000'], data['ASSOC'])
 
-def drawCircle(ax, ra, dec, radius, **kwargs):
-    circle = pl.Circle((ra, dec), radius, **kwargs, fill=False)
+def drawCircle(ax, ra, dec, radius):
+    circle = pl.Circle((ra, dec), radius, fill=False)
     ax.add_artist(circle)
+
+# Python3 works
+#def drawCircle(ax, ra, dec, radius, **kwargs):
+#    circle = pl.Circle((ra, dec), radius, **kwargs, fill=False)
+#    ax.add_artist(circle)
 
 fig = pl.figure(figsize=(12,10))
 ax = fig.add_subplot(111)
@@ -131,8 +142,10 @@ for s in np.array(srcs_3fgl).T:
 #    if openingAngle(ra, dec, RA0, Dec0) < Box: 
 #        ax.annotate(name[1], (ra-0.1, dec+0.3), color='#666666', horizontalalignment='left', verticalalignment='center', fontsize=12, clip_on=True)
 #
+
+
 # Plot neutrino position
-ax.scatter(RA0, Dec0, color='crimson', marker='x', label='IC170922 - GCN', s=100)
+ax.scatter(RA0, Dec0, color='crimson', marker='x', label=gcnlabel, s=100)
 xe = RA0 + (dRAhi - dRAlo)/2.
 ye = Dec0 + (dDechi - dDeclo)/2.
 e = Ellipse(xy=(xe,ye), width=dRAhi+dRAlo, height=dDechi+dDeclo, linewidth=2, edgecolor='crimson', facecolor='none')
@@ -151,5 +164,9 @@ ax.set_xlabel(r'$\alpha_{2000}$ [$^{\circ}$]')
 ax.set_ylabel(r'$\delta_{2000}$ [$^{\circ}$]')
 ax.grid(linestyle='--', linewidth=0.5)
 
+
+#--------------
+fileout = 'AMONAlertPlots/%s.png' %(gcnlabel)
+print "Saving image", fileout
+plt.savefig(fileout)
 plt.show()
-plt.savefig('testplot.png')
