@@ -12,7 +12,12 @@ def purge(dict_):
      del dict_['COMMENTS']
     
      return dict_ 
-    
+
+def strSepPurge(text, sep):
+    # https://stackoverflow.com/questions/904746/how-to-remove-all-characters-after-a-specific-character-in-python
+    head, sep, tail = text.partition(sep)
+    return head 
+
 def loadAMON(filename):
     num_dict = {} # dictionary for plotting purposes
     data_dict = {} # full dictionary for relevant variables
@@ -36,28 +41,30 @@ def loadAMON(filename):
                 data_dict["SRC_DEChi"] = Dechi
                 Declo = f.next().strip()
                 data_dict["SRC_DEClo"] = Declo
-   # Clean dictionary
+
+    # Clean dictionary
     num_dict = data_dict
     purge(num_dict)
+   
     # Note: Python Strings are immutable
     for key in num_dict:
         e = num_dict[key]
         newstring = e
         # print key, e
         if 'd' in e:
-            newstring = re.sub("d", "",newstring)
+            newstring = re.sub("d* ", "",newstring)
         if "+" in e:
-            newstring = e.replace("+", "") 
-        if '{+' in e: 
-            newstring = re.sub(r'{}',r'',newstring)
-        if '[' in e: 
-            newstring = re.sub(r'[*]',r'',newstring)
-        if 'galactic' in e:
-            newstring = re.sub(r'galactic*',r'',newstring)
-        if 'ecliptic' in e:
-            newstring = re.sub(r'ecliptic*',r'',newstring) 
-        print (key, newstring) #num_dict[key]
-   return data_dict     
+            newstring = newstring[1:]
+        newstring = strSepPurge(newstring, '{')
+        newstring = strSepPurge(newstring, '[')
+        num_dict[key] = newstring
+        print (key, newstring) # for debugging
+
+    RASC, DRAHI, DRALO = float(num_dict['SRC_RA']), float(num_dict['SRC_RAhi']), float(num_dict['SRC_RAlo'])
+    DEC, DDECHI, DDECLO = float(num_dict['SRC_DEC']), float(num_dict['SRC_DEChi']), float(num_dict['SRC_DEClo'])
+    BOX = None
+
+    return RASC, DRAHI, DRALO, DEC, DDECHI, DDECLO, BOX     
    # eventually it should return this! -----------
    #return RASC, DRAHI, DRALO, DEC, DDECHI, DDECLO, BOX
 
