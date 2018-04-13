@@ -1,5 +1,5 @@
 import re
-AMONfile = '17569642_130214.amon'
+#AMONfile = '17569642_130214.amon'
 
 def purge(dict_):
      # Delete unecessary entries
@@ -62,10 +62,9 @@ def loadAMON(filename):
 
     RASC, DRAHI, DRALO = float(num_dict['SRC_RA']), float(num_dict['SRC_RAhi']), float(num_dict['SRC_RAlo'])
     DEC, DDECHI, DDECLO = float(num_dict['SRC_DEC']), float(num_dict['SRC_DEChi']), float(num_dict['SRC_DEClo'])
+    EVNUM, RUN = num_dict['EVENT_NUM'], num_dict['RUN_NUM']
     BOX = None
 
-    return RASC, DRAHI, DRALO, DEC, DDECHI, DDECLO, BOX     
-   # eventually it should return this! -----------
-   #return RASC, DRAHI, DRALO, DEC, DDECHI, DDECLO, BOX
+    return RASC, DRAHI, DRALO, DEC, DDECHI, DDECLO, BOX, EVNUM, RUN 
 
-print (loadAMON(AMONfile))
+#print (loadAMON(AMONfile))
