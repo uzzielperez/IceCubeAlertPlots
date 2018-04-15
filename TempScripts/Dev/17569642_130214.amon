@@ -1,0 +1,34 @@
+//////////////////////////////////////////////////////////////////////
+TITLE:            GCN/AMON NOTICE
+NOTICE_DATE:      Mon 06 Nov 17 18:40:24 UT
+NOTICE_TYPE:      AMON ICECUBE EHE 
+RUN_NUM:          130214
+EVENT_NUM:        17569642
+SRC_RA:           340.2500d {+22h 41m 00s} (J2000),
+                  340.4744d {+22h 41m 54s} (current),
+                  339.6215d {+22h 38m 29s} (1950)
+SRC_DEC:           +7.3140d {+07d 18' 50"} (J2000),
+                   +7.4076d {+07d 24' 27"} (current),
+                   +7.0525d {+07d 03' 09"} (1950)
+SRC_ERROR:        14.99 [arcmin radius, stat+sys, 50% containment]
+DISCOVERY_DATE:   18063 TJD;   310 DOY;   17/11/06 (yy/mm/dd)
+DISCOVERY_TIME:   67179 SOD {18:39:39.21} UT
+REVISION:         0
+N_EVENTS:         1 [number of neutrinos]
+STREAM:           2
+DELTA_T:          0.0000 [sec]
+SIGMA_T:          0.0000e+00 [dn]
+ENERGY :          2.2999e+02 [TeV]
+SIGNALNESS:       7.4593e-01 [dn]
+CHARGE:           15456.1029 [pe]
+SUN_POSTN:        222.08d {+14h 48m 19s}  -16.20d {-16d 12' 00"}
+SUN_DIST:         119.26 [deg]   Sun_angle= -7.9 [hr] (East of Sun)
+MOON_POSTN:        79.20d {+05h 16m 49s}  +18.66d {+18d 39' 42"}
+MOON_DIST:         95.82 [deg]
+GAL_COORDS:        75.69,-43.28 [deg] galactic lon,lat of the event
+ECL_COORDS:       344.62, 14.48 [deg] ecliptic lon,lat of the event
+COMMENTS:         AMON_ICECUBE_EHE.  
+COMMENTS:            
+COMMENTS:        NOTE: This AMON_ICECUBE_EHE event is temporally(33.0<100sec) coincident with the FERMI_GBM event (trignum=531686417).  
+ 
+ 

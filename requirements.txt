@@ -3,3 +3,9 @@ pyqtgraph
 matplotlib
 PyOpenGL
 PyOpenGL-accelerate
+mpld3
+pyfits 
+pygcn
+requests
+healpy
+astropy
