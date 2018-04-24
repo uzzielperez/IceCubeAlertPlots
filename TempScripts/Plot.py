@@ -1,11 +1,15 @@
 import pyfits
 import numpy as np
 import pylab as pl
-import matplotlib
+import matplotlib, multiprocessing
+from multiprocessing import Process
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 matplotlib.use('TkAgg') # TkAg backend  to draw plot on Tk canv with tkinter (Faster than MacOS backend) 
 import argparse
+
+import time
+from random import random
 
 # Command Line Options or GCN args 
 parser = argparse.ArgumentParser(description='GCN variables.')
@@ -169,4 +173,23 @@ ax.grid(linestyle='--', linewidth=0.5)
 fileout = 'AMONAlertPlots/%s.png' %(gcnlabel)
 print "Saving image", fileout
 plt.savefig(fileout)
-plt.show()
+
+def plot():
+    #credits: https://stackoverflow.com/questions/33890596/using-matplotlib-from-main-and-spawned-process?lq=1
+    import matplotlib.pyplot as plt
+    plt.show()
+    #fig = matplotlib.pyplot.figure()
+    #fig.show()
+
+if __name__ == '__main__':
+    p = Process(target=plot, args=())
+    p.start()
+    p.join()
+    raw_input()
+#plot()
+#multiprocessing.set_start_method('spawn')
+#p = multiprocessing.Process(target=plot, args=())
+#p.start()
+#raw_input()
+#plt.show()
+print "finished plotting" 
